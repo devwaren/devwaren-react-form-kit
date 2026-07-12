@@ -1,2 +1,2 @@
-export {sanitize} from "./sanitizer"
-export {cn} from "./cn"
+export {sanitize} from "./Sanitizer"
+export {cn} from "./CN"

@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
-import { cn } from "#/helpers";
+import { cn } from "../../helpers";
 
 type FormSectionProps = ComponentPropsWithoutRef<"section"> & {
   sectionLabel?: string;

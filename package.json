@@ -1,21 +1,25 @@
 {
-  "name": "@devwaren/react-form-kit",
-  "module": "index.ts",
+  "name": "@dev-waren/react-form-kit",
+  "version": "1.0.7",
+  "description": "react form for private purposes",
+  "keywords": [
+    "kit",
+    "form"
+  ],
+  "homepage": "https://github.com/devwaren/devwaren-react-form-kit#readme",
+  "bugs": {
+    "url": "https://github.com/devwaren/devwaren-react-form-kit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devwaren/devwaren-react-form-kit.git"
+  },
+  "license": "ISC",
+  "author": "waren gador",
   "type": "module",
-  "version": "1.0.6",
-  "description": "Modern React Hook Form utilities with Zod support.",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "biome check .",
-    "format": "biome format --write .",
-    "publish:npm": "npm publish --access public"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
+    "build": "tsup"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -27,10 +31,13 @@
     "react-hook-form": "^7.81.0",
     "tailwind-merge": "^3.6.0",
     "tsup": "^8.5.1",
+    "tsx": "^4.23.0",
+    "typescript": "^5.9.3",
     "xss": "^1.0.15",
     "zod": "^4.4.3"
   },
   "allowScripts": {
-    "esbuild@0.27.7": true
+    "esbuild@0.27.7": true,
+    "esbuild@0.28.1": true
   }
 }
