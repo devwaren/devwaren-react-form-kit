@@ -1,4 +1,4 @@
-import { defineConfig } from "tsup";
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
 	 entry: ["src/index.ts"],
@@ -6,9 +6,10 @@ export default defineConfig({
     dts: true,
     minify: true,
     target: "esnext",
-    bundle: true,
+    unbundle: true,
     platform: "node",
-    external: [
+    deps:{
+        neverBundle: [
         'fs',
         'fs/promises',
         'os',
@@ -20,4 +21,5 @@ export default defineConfig({
         'path',
         '*.css'
     ],
+    }
 });
