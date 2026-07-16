@@ -9,6 +9,7 @@ export type InputProps<T extends FieldValues> = {
   placeholder?: string;
   className?: string;
   icon?: LucideIcon;
+  right?: boolean;
 };
 
 export const FormInput = <T extends FieldValues>({
@@ -63,5 +64,3 @@ export const FormInput = <T extends FieldValues>({
     </div>
   );
 };
-
-export { Input };
