@@ -1,13 +1,13 @@
-import type { Key, ReactNode } from "react";
+import { Fragment, type Key, type ReactNode } from "react";
 
-type MapperProps<T extends { id?: Key; className?: string }> = {
+type MapperProps<T> = {
   items: T[];
   children: (item: T, index: number) => ReactNode;
   className?: string;
   listFor: string;
 };
 
-function MapperInner<T extends { id?: Key; className?: string }>({
+function MapperInner<T>({
   items,
   children,
   className,
@@ -16,20 +16,14 @@ function MapperInner<T extends { id?: Key; className?: string }>({
   return (
     <ul className={className} aria-label={`list for ${listFor}`}>
       {items.map((item, index) => {
-        const { id, className, ...props } = item;
+        const { id } = item as { id?: Key };
 
-        return (
-          <li key={id ?? index} className={className}>
-            {children(props as T, index)}
-          </li>
-        );
+        return <Fragment key={id ?? index}>{children(item, index)}</Fragment>;
       })}
     </ul>
   );
 }
 
-const Mapper = <T extends { id?: Key; className?: string }>(
-  props: MapperProps<T>,
-) => <MapperInner {...props} />;
+const Mapper = <T,>(props: MapperProps<T>) => <MapperInner {...props} />;
 
 export { Mapper };
