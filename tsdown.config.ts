@@ -1,25 +1,30 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-	 entry: ["src/index.ts"],
+    entry: [
+        "src/@kit/@tanstack/react-form/index.ts",
+        "src/@kit/formik/index.ts",
+        "src/@kit/react-hook-form/index.ts",
+        "src/@kit/layouts/index.ts",
+    ],
     format: ["esm", "cjs"],
     dts: true,
     minify: true,
     target: "esnext",
     unbundle: true,
     platform: "node",
-    deps:{
+    deps: {
         neverBundle: [
-        'fs',
-        'fs/promises',
-        'os',
-        'stream',
-        'events',
-        'node:path',
-        'node:fs/promises',
-        'node:stream',
-        'path',
-        '*.css'
-    ],
-    }
+            "fs",
+            "fs/promises",
+            "path",
+            "os",
+            "stream",
+            "events",
+            "node:fs/promises",
+            "node:path",
+            "node:stream",
+            "*.css",
+        ],
+    },
 });

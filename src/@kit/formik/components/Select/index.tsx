@@ -1,5 +1,5 @@
 import { useField } from "formik";
-import { SelectProps } from "./types";
+import type { SelectProps } from "./types";
 
 export function Select({ name, children, ...props }: SelectProps) {
   const [field] = useField(name);

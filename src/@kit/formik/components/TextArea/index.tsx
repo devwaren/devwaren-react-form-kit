@@ -1,5 +1,5 @@
 import { useField } from "formik";
-import { TextAreaProps } from "./types";
+import type { TextAreaProps } from "./types";
 
 export function TextArea({ name, ...props }: TextAreaProps) {
   const [field] = useField(name);
