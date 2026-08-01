@@ -1,9 +1,9 @@
 import { FormProps } from "./types";
-import { FormProvider } from "../context";
+import { TanstackFormProvider } from "../context";
 
 export function Form({ methods, children, ...props }: FormProps) {
   return (
-    <FormProvider methods={methods}>
+    <TanstackFormProvider methods={methods}>
       <form
         {...props}
         onSubmit={e => {
@@ -13,6 +13,6 @@ export function Form({ methods, children, ...props }: FormProps) {
         }}>
         {children}
       </form>
-    </FormProvider>
+    </TanstackFormProvider>
   );
 }

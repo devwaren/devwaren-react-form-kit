@@ -1,38 +1,69 @@
 {
   "name": "@dev-waren/react-form-kit",
-  "version": "1.2.8",
-  "description": "react form for private purposes",
+  "version": "1.3.18",
+  "description": "React form components and utilities.",
   "keywords": [
-    "kit",
-    "form"
+    "react",
+    "form",
+    "react-hook-form",
+    "formik",
+    "tanstack-form"
   ],
-  "exports": {
-    "./react-hook-form": "./dist/react-hook-form/index.js",
-    "./formik": "./dist/formik/index.js",
-    "./tanstack-form": "./dist/tanstack-form/index.js",
-    "./layouts": "./dist/layouts/index.js",
-    "./helpers": "./dist/helpers/index.js"
-  },
+  "author": "Waren Gador",
+  "license": "ISC",
   "homepage": "https://github.com/devwaren/devwaren-react-form-kit#readme",
-  "bugs": {
-    "url": "https://github.com/devwaren/devwaren-react-form-kit/issues"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devwaren/devwaren-react-form-kit.git"
   },
-  "license": "ISC",
-  "author": "waren gador",
+  "bugs": {
+    "url": "https://github.com/devwaren/devwaren-react-form-kit/issues"
+  },
   "type": "module",
-  "main": "src/index.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./hook-form": {
+      "types": "./dist/@kit/hook-form/index.d.mts",
+      "import": "./dist/@kit/hook-form/index.mjs",
+      "require": "./dist/@kit/hook-form/index.cjs"
+    },
+    "./formik": {
+      "types": "./dist/@kit/formik/index.d.mts",
+      "import": "./dist/@kit/formik/index.mjs",
+      "require": "./dist/@kit/formik/index.cjs"
+    },
+    "./tanstack/react-form": {
+      "types": "./dist/@kit/@tanstack/react-form/index.d.mts",
+      "import": "./dist/@kit/@tanstack/react-form/index.mjs",
+      "require": "./dist/@kit/@tanstack/react-form/index.cjs"
+    },
+    "./layouts": {
+      "types": "./dist/@kit/layouts/index.d.mts",
+      "import": "./dist/@kit/layouts/index.mjs",
+      "require": "./dist/@kit/layouts/index.cjs"
+    },
+    "./helpers": {
+      "types": "./dist/@kit/helpers/index.d.mts",
+      "import": "./dist/@kit/helpers/index.mjs",
+      "require": "./dist/@kit/helpers/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-form": "^1.33.3",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
     "clsx": "^2.1.1",
     "formik": "^2.4.9",
     "lucide-react": "^1.24.0",
@@ -40,12 +71,16 @@
     "react-dom": "^19.2.7",
     "react-hook-form": "^7.81.0",
     "tailwind-merge": "^3.6.0",
-    "tsdown": "^0.22.8",
-    "tsx": "^4.23.0",
-    "typescript": "^5.9.3",
     "xss": "^1.0.15",
     "zod": "^4.4.3",
     "zod-formik-adapter": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "tsdown": "^0.22.8",
+    "tsx": "^4.23.0",
+    "typescript": "^5.9.3"
   },
   "allowScripts": {
     "esbuild@0.27.7": true,

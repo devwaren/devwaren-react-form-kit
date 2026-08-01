@@ -6,8 +6,8 @@ import {
 	useFormik,
 } from "formik";
 import type { z } from "zod/v3";
-import { sanitize } from "../../../helpers";
-import { ZodAny, type ZodTypeAny } from "zod";
+import { type ZodTypeAny } from "zod";
+import { sanitize } from "#/@kit/helpers";
 
 type UseFormikFormSettingsProps<TSchema extends z.ZodTypeAny> = {
 	schema: TSchema;

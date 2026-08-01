@@ -4,8 +4,9 @@ export default defineConfig({
     entry: [
         "src/@kit/@tanstack/react-form/index.ts",
         "src/@kit/formik/index.ts",
-        "src/@kit/react-hook-form/index.ts",
+        "src/@kit/hook-form/index.ts",
         "src/@kit/layouts/index.ts",
+        "src/index.ts"
     ],
     format: ["esm", "cjs"],
     dts: true,

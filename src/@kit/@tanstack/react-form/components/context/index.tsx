@@ -10,7 +10,7 @@ type FormProviderProps = {
   children: ReactNode;
 };
 
-export function FormProvider({ methods, children }: FormProviderProps) {
+export function TanstackFormProvider({ methods, children }: FormProviderProps) {
   return (
     <FormContext.Provider value={methods}>{children}</FormContext.Provider>
   );

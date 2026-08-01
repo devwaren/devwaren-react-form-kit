@@ -1,3 +1,4 @@
+import { sanitize } from "#/@kit/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	type DefaultValues,
@@ -7,7 +8,6 @@ import {
 	useForm,
 } from "react-hook-form";
 import type { z } from "zod/v3";
-import { sanitize } from "../utils";
 
 type UseFormSettingsProps<TSchema extends z.ZodTypeAny> = {
 	schema: TSchema;
