@@ -1,4 +1,4 @@
-export { Form } from "./Form"
-export { Input } from "./Input"
-export { TextArea } from "./TextArea"
-export { Select } from "./Select"
+export * from "./Form"
+export * from "./Input"
+export * from "./TextArea"
+export * from "./Select"

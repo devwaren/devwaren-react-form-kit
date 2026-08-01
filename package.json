@@ -1,6 +1,6 @@
 {
   "name": "@dev-waren/react-form-kit",
-  "version": "1.2.2",
+  "version": "1.2.8",
   "description": "react form for private purposes",
   "keywords": [
     "kit",
@@ -10,7 +10,8 @@
     "./react-hook-form": "./dist/react-hook-form/index.js",
     "./formik": "./dist/formik/index.js",
     "./tanstack-form": "./dist/tanstack-form/index.js",
-    "./layouts": "./dist/layouts/index.js"
+    "./layouts": "./dist/layouts/index.js",
+    "./helpers": "./dist/helpers/index.js"
   },
   "homepage": "https://github.com/devwaren/devwaren-react-form-kit#readme",
   "bugs": {
