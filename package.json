@@ -1,6 +1,6 @@
 {
   "name": "@dev-waren/react-form-kit",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "react form for private purposes",
   "keywords": [
     "kit",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
+    "@tanstack/react-form": "^1.33.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "clsx": "^2.1.1",
