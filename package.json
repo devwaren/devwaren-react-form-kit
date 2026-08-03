@@ -53,6 +53,11 @@
       "types": "./dist/@kit/helpers/index.d.mts",
       "import": "./dist/@kit/helpers/index.mjs",
       "require": "./dist/@kit/helpers/index.cjs"
+    },
+    "./form-actions": {
+      "types": "./dist/@kit/form-actions/index.d.mts",
+      "import": "./dist/@kit/form-actions/index.mjs",
+      "require": "./dist/@kit/form-actions/index.cjs"
     }
   },
   "files": [
@@ -64,6 +69,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-form": "^1.33.3",
+    "@tanstack/react-query": "^5.101.4",
     "clsx": "^2.1.1",
     "formik": "^2.4.9",
     "lucide-react": "^1.24.0",

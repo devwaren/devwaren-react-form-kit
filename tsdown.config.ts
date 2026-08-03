@@ -6,6 +6,7 @@ export default defineConfig({
         "src/@kit/formik/index.ts",
         "src/@kit/hook-form/index.ts",
         "src/@kit/layouts/index.ts",
+        "src/@kit/form-actions/index.ts",
         "src/index.ts"
     ],
     format: ["esm", "cjs"],
