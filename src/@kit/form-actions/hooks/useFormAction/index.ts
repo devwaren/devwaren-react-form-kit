@@ -1,28 +1,31 @@
 import {
+    type MutationKey,
     type QueryKey,
+    type UseMutationOptions,
     useMutation,
     useQueryClient,
-    type UseMutationOptions,
 } from "@tanstack/react-query";
 
 type UseFormActionSettingsProps<TData, TVariables> = {
     fn: (variables: TVariables) => Promise<TData>;
-    invalidateFrom?: QueryKey | QueryKey[];
     options?: Omit<
         UseMutationOptions<TData, Error, TVariables>,
-        "mutationFn"
-    >;
+        "mutationFn" | "mutationKey"
+    > & {
+        key?: MutationKey;
+        invalidateFrom?: QueryKey[];
+    };
 };
 
 export const useFormActionSettings = <TData, TVariables>({
     fn,
-    invalidateFrom,
     options,
 }: UseFormActionSettingsProps<TData, TVariables>) => {
     const queryClient = useQueryClient();
 
-    const mutation = useMutation({
+    return useMutation({
         mutationFn: fn,
+        mutationKey: options?.key ?? [fn.name],
         ...options,
         onSuccess: async (
             data,
@@ -30,13 +33,9 @@ export const useFormActionSettings = <TData, TVariables>({
             onMutateResult,
             context,
         ) => {
-            if (invalidateFrom) {
-                const keys = Array.isArray(invalidateFrom[0])
-                    ? (invalidateFrom as QueryKey[])
-                    : [invalidateFrom as QueryKey];
-
+            if (options?.invalidateFrom?.length) {
                 await Promise.all(
-                    keys.map(queryKey =>
+                    options.invalidateFrom.map(queryKey =>
                         queryClient.invalidateQueries({ queryKey }),
                     ),
                 );
@@ -50,6 +49,4 @@ export const useFormActionSettings = <TData, TVariables>({
             );
         },
     });
-
-    return mutation;
 };
