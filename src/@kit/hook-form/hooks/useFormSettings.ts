@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	type DefaultValues,
 	type SubmitHandler,
-	UseFormProps,
+	type UseFormProps,
 	type UseFormReturn,
 	useForm,
 } from "react-hook-form";
@@ -18,10 +18,15 @@ type UseFormSettingsProps<TSchema extends z.ZodTypeAny> = {
 	mode?: UseFormProps<z.input<TSchema>>["mode"];
 	reValidateMode?: UseFormProps<z.input<TSchema>>["reValidateMode"];
 };
+
 type UseFormSettingsReturn<TSchema extends z.ZodTypeAny> = {
-	methods: UseFormReturn<z.input<TSchema>, unknown, z.output<TSchema>>;
+	methods: UseFormReturn<
+		z.input<TSchema>,
+		unknown,
+		z.output<TSchema>
+	>;
 	schema: TSchema;
-	onSubmit: React.ChangeEventHandler<HTMLFormElement>;
+	onSubmit: React.FormEventHandler<HTMLFormElement>;
 };
 
 export function useFormSettings<TSchema extends z.ZodTypeAny>({
@@ -33,7 +38,11 @@ export function useFormSettings<TSchema extends z.ZodTypeAny>({
 	mode,
 	reValidateMode,
 }: UseFormSettingsProps<TSchema>): UseFormSettingsReturn<TSchema> {
-	const methods = useForm<z.input<TSchema>, unknown, z.output<TSchema>>({
+	const methods = useForm<
+		z.input<TSchema>,
+		unknown,
+		z.output<TSchema>
+	>({
 		resolver: zodResolver(schema),
 		defaultValues,
 		mode,

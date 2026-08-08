@@ -1,26 +1,39 @@
 import {
+    useQuery,
     type QueryKey,
     type UseQueryOptions,
     type UseQueryResult,
-    useQuery,
 } from "@tanstack/react-query";
 
-type UseQuerySettingsProps<TData, TParams> = {
-    fn: (params?: TParams) => Promise<TData>;
-    params?: TParams;
-    options?: Omit<UseQueryOptions<TData>, "queryFn"> & {
-        queryKey?: QueryKey;
-    };
+type QueryOptions<TData> = Omit<UseQueryOptions<TData>, "queryKey" | "queryFn"> & {
+    queryKey?: QueryKey;
 };
 
-export const useQuerySettings = <TData, TParams>({
-    fn,
-    params,
-    options,
-}: UseQuerySettingsProps<TData, TParams>): UseQueryResult<TData> => {
-    return useQuery({
-        queryKey: options?.queryKey ?? (params ? [fn.name, params] : [fn.name]),
-        queryFn: () => fn(params),
-        ...options,
+type UseQuerySettingsProps<TData, TParams = void> =
+    TParams extends void
+    ? {
+        fn: () => Promise<TData>;
+        options?: QueryOptions<TData>;
+    }
+    : {
+        fn: (params: TParams) => Promise<TData>;
+        params: TParams;
+        options?: QueryOptions<TData>;
+    };
+
+export function useQuerySettings<TData, TParams = void>(
+    props: UseQuerySettingsProps<TData, TParams>,
+): UseQueryResult<TData> {
+    const queryKey =
+        props.options?.queryKey ??
+        ("params" in props ? [props.fn.name, props.params] : [props.fn.name]);
+
+    return useQuery<TData>({
+        queryKey,
+        queryFn: () =>
+            "params" in props
+                ? props.fn(props.params)
+                : props.fn(),
+        ...props.options,
     });
-};
+}
