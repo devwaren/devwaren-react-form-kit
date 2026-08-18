@@ -1,19 +1,25 @@
 import { X } from "lucide-react";
-import { useToastStore } from "./store";
 import { Mapper } from "../Mapper";
+import { useToastStore } from "./store";
+import { ToasterPosition } from "./constants/types";
+import { positionClasses } from "./constants";
 
-export function Toaster() {
+type Props = {
+  position?: ToasterPosition;
+};
+
+export function Toaster({ position = "bottom-right" }: Props) {
   const { toasts, remove } = useToastStore();
 
   return (
     <Mapper
       listFor="toaster"
       items={toasts}
-      className="pointer-events-none fixed right-4 bottom-4 z-9999 flex w-full max-w-sm flex-col gap-3">
+      className={`pointer-events-none fixed z-9999 flex w-full max-w-sm flex-col gap-3 ${positionClasses[position]}`}>
       {toast => (
         <div
           key={toast.id}
-          className="
+          className={`
 						pointer-events-auto
 						flex
 						items-center
@@ -23,7 +29,8 @@ export function Toaster() {
 						bg-white
 						p-4
 						shadow-lg
-					">
+						${toast.className ?? ""}
+					`}>
           <span className="flex-1 text-sm font-medium">{toast.message}</span>
 
           <button
