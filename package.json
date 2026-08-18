@@ -1,6 +1,6 @@
 {
   "name": "@dev-waren/react-form-kit",
-  "version": "1.4.4",
+  "version": "1.4.6",
   "description": "React form components and utilities.",
   "keywords": [
     "react",
@@ -79,7 +79,8 @@
     "tailwind-merge": "^3.6.0",
     "xss": "^1.0.15",
     "zod": "^4.4.3",
-    "zod-formik-adapter": "^2.0.0"
+    "zod-formik-adapter": "^2.0.0",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
