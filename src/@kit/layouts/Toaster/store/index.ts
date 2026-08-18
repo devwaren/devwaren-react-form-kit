@@ -1,27 +1,13 @@
-// toast.ts
 
 import { create } from "zustand";
-
-export type ToastType = "success" | "error" | "info" | "warning";
-
-export type ToastData = {
-	id: string;
-	message: string;
-	type: ToastType;
-	duration: number;
-};
-
-type ToastStore = {
-	toasts: ToastData[];
-	add: (message: string, type: ToastType, duration?: number) => void;
-	remove: (id: string) => void;
-};
+import { ToastOptionFunction, ToastStore } from "./types";
 
 export const useToastStore = create<ToastStore>((set) => ({
 	toasts: [],
 
-	add: (message, type, duration = 3000) => {
+	add: (message, type, options = {}) => {
 		const id = crypto.randomUUID();
+		const duration = options.duration ?? 3000;
 
 		set((state) => ({
 			toasts: [
@@ -30,16 +16,21 @@ export const useToastStore = create<ToastStore>((set) => ({
 					id,
 					message,
 					type,
+					className: options.className,
 					duration,
 				},
 			],
 		}));
 
-		setTimeout(() => {
-			set((state) => ({
-				toasts: state.toasts.filter((toast) => toast.id !== id),
-			}));
-		}, duration);
+		if (duration > 0) {
+			setTimeout(() => {
+				set((state) => ({
+					toasts: state.toasts.filter(
+						(toast) => toast.id !== id,
+					),
+				}));
+			}, duration);
+		}
 	},
 
 	remove: (id) =>
@@ -48,16 +39,24 @@ export const useToastStore = create<ToastStore>((set) => ({
 		})),
 }));
 
-export const toast = {
-	success: (message: string, duration?: number) =>
-		useToastStore.getState().add(message, "success", duration),
+export const toast: ToastOptionFunction = {
+	success: (message, options) =>
+		useToastStore
+			.getState()
+			.add(message, "success", options),
 
-	error: (message: string, duration?: number) =>
-		useToastStore.getState().add(message, "error", duration),
+	error: (message, options) =>
+		useToastStore
+			.getState()
+			.add(message, "error", options),
 
-	info: (message: string, duration?: number) =>
-		useToastStore.getState().add(message, "info", duration),
+	info: (message, options) =>
+		useToastStore
+			.getState()
+			.add(message, "info", options),
 
-	warning: (message: string, duration?: number) =>
-		useToastStore.getState().add(message, "warning", duration),
+	warning: (message, options) =>
+		useToastStore
+			.getState()
+			.add(message, "warning", options),
 };
