@@ -1,6 +1,6 @@
 {
   "name": "@dev-waren/react-form-kit",
-  "version": "1.4.8",
+  "version": "1.4.12",
   "description": "React form components and utilities.",
   "keywords": [
     "react",
@@ -78,6 +78,7 @@
     "clsx": "^2.1.1",
     "formik": "^2.4.9",
     "lucide-react": "^1.24.0",
+    "motion": "^13.1.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hook-form": "^7.81.0",
