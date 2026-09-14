@@ -10,7 +10,7 @@ type MapperProps<T> = {
   children: (item: T, index: number) => ReactNode;
   className?: string;
   listFor: string;
-  as: ElementType;
+  as?: ElementType;
 };
 
 function MapperInner<T>({
