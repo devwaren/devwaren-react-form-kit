@@ -58,6 +58,9 @@ export function Toaster({ position = "bottom-right" }: Props) {
 							bg-white
 							p-4
 							shadow-lg
+              bg-white
+              dark:bg-gray-600/40
+              dark:text-white
 							${toast.className ?? ""}
 						`}>
 						<span className="flex-1 text-sm font-medium">
@@ -69,7 +72,7 @@ export function Toaster({ position = "bottom-right" }: Props) {
 							onClick={() => remove(toast.id)}
 							className="rounded-md p-1 transition hover:bg-black/5"
 							aria-label="Close notification">
-							<X className="size-4" />
+							<X className="size-2" />
 						</button>
 					</motion.div>
 				))}
