@@ -13,7 +13,7 @@ const useInput = <T extends FieldValues>(name: Path<T>) => {
 	} = useFormContext<T>();
 
 	const error = get(errors, name)?.message;
-	const [showError, setShowError] = useState(false);
+	const [isError, setShowError] = useState(false);
 
 	useEffect(() => {
 		if (!error || submitCount === 0) {
@@ -33,7 +33,7 @@ const useInput = <T extends FieldValues>(name: Path<T>) => {
 	return {
 		register: formRegister(name),
 		error,
-		showError,
+		isError,
 	};
 };
 
