@@ -18,7 +18,7 @@ export function Toaster({ position = "bottom-right" }: Props) {
 				fixed
 				z-[9999]
 				flex
-				w-full
+				w-[calc(100%-2rem)]
 				max-w-sm
 				flex-col
 				gap-3
@@ -32,7 +32,7 @@ export function Toaster({ position = "bottom-right" }: Props) {
 						initial={{
 							opacity: 0,
 							y: 20,
-							scale: 0.95,
+							scale: 0.96,
 						}}
 						animate={{
 							opacity: 1,
@@ -42,7 +42,7 @@ export function Toaster({ position = "bottom-right" }: Props) {
 						exit={{
 							opacity: 0,
 							y: 20,
-							scale: 0.95,
+							scale: 0.96,
 						}}
 						transition={{
 							duration: 0.2,
@@ -55,24 +55,42 @@ export function Toaster({ position = "bottom-right" }: Props) {
 							gap-3
 							rounded-xl
 							border
-							bg-white
+							border-black/10
+							bg-white/95
 							p-4
-							shadow-lg
-              bg-white
-              dark:bg-gray-600/40
-              dark:text-white
+							text-gray-900
+							shadow-xl
+							backdrop-blur-md
+							dark:border-white/10
+							dark:bg-gray-900/90
+							dark:text-white
 							${toast.className ?? ""}
 						`}>
-						<span className="flex-1 text-sm font-medium">
+						<span className="flex-1 text-sm font-medium leading-5">
 							{toast.message}
 						</span>
 
 						<button
 							type="button"
 							onClick={() => remove(toast.id)}
-							className="rounded-md p-1 transition hover:bg-black/5"
+							className={`
+								shrink-0
+								rounded-lg
+								p-1.5
+								text-gray-500
+								transition
+								hover:bg-black/5
+								hover:text-gray-900
+								focus:outline-none
+								focus:ring-2
+								focus:ring-black/10
+								dark:text-white/60
+								dark:hover:bg-white/10
+								dark:hover:text-white
+								dark:focus:ring-white/20
+							`}
 							aria-label="Close notification">
-							<X className="size-2" />
+							<X className="size-4" />
 						</button>
 					</motion.div>
 				))}
