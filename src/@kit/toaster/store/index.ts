@@ -3,6 +3,17 @@ import type { ToastOptionFunction, ToastStore } from "./types";
 
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
 
+const toastStyles = {
+	success:
+		"border-emerald-500/20 bg-emerald-500/10 text-emerald-100",
+	error:
+		"border-red-500/20 bg-red-500/10 text-red-100",
+	info:
+		"border-blue-500/20 bg-blue-500/10 text-blue-100",
+	warning:
+		"border-amber-500/20 bg-amber-500/10 text-amber-100",
+} as const;
+
 export const useToastStore = create<ToastStore>((set) => ({
 	toasts: [],
 
@@ -17,7 +28,7 @@ export const useToastStore = create<ToastStore>((set) => ({
 					id,
 					message,
 					type,
-					className: options.className,
+					className: `${toastStyles[type]} ${options.className ?? ""}`.trim(),
 					duration,
 				},
 			],
