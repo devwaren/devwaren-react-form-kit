@@ -5,9 +5,56 @@ import {
 	type FormikProps,
 	useFormik,
 } from "formik";
-import type { z } from "zod/v3";
-import { type ZodTypeAny } from "zod";
+import type { z, ZodTypeAny } from "zod/v3";
+import { ZodType } from "zod";
 import { sanitize } from "#/@kit/helpers";
+
+type DeepKeys<T> = T extends readonly (infer U)[]
+	? `${number} ` | `${number}.${DeepKeys<U>}`
+	: T extends object
+	? {
+		[K in keyof T & string]:
+		| K
+		| (T[K] extends object
+			? `${K}.${DeepKeys<T[K]>}`
+			: never);
+	}[keyof T & string]
+	: never;
+
+function getPathValue(object: unknown, path: string): unknown {
+	return path.split(".").reduce<unknown>((value, key) => {
+		if (value === null || typeof value !== "object") {
+			return undefined;
+		}
+
+		return (value as Record<string, unknown>)[key];
+	}, object);
+}
+
+function setPathValue(
+	object: Record<string, unknown>,
+	path: string,
+	value: unknown,
+): void {
+	const keys = path.split(".");
+	const lastKey = keys.pop();
+
+	if (!lastKey) return;
+
+	let current = object;
+
+	for (const key of keys) {
+		const next = current[key];
+
+		if (next === null || typeof next !== "object") {
+			return;
+		}
+
+		current = next as Record<string, unknown>;
+	}
+
+	current[lastKey] = value;
+}
 
 type UseFormikFormSettingsProps<TSchema extends z.ZodTypeAny> = {
 	schema: TSchema;
@@ -17,7 +64,7 @@ type UseFormikFormSettingsProps<TSchema extends z.ZodTypeAny> = {
 		helpers: FormikHelpers<z.output<TSchema>>,
 	) => Promise<void> | void;
 	ignoreFields?: readonly (keyof z.output<TSchema>)[];
-	clearFields?: readonly (keyof z.input<TSchema>)[];
+	clearFields?: readonly DeepKeys<z.input<TSchema>>[];
 	validateOnBlur?: FormikConfig<z.input<TSchema>>["validateOnBlur"];
 	validateOnChange?: FormikConfig<z.input<TSchema>>["validateOnChange"];
 	validateOnMount?: FormikConfig<z.input<TSchema>>["validateOnMount"];
@@ -38,9 +85,18 @@ export function useFormikFormSettings<TSchema extends z.ZodTypeAny>({
 	validateOnChange,
 	validateOnMount,
 }: UseFormikFormSettingsProps<TSchema>): UseFormikFormSettingsReturn<TSchema> {
+
+	if (typeof window === "undefined") {
+		throw new Error(
+			"useFormikFormSettings is client-only and cannot be used during SSR.",
+		);
+	}
+
 	const methods = useFormik<z.input<TSchema>>({
 		initialValues: defaultValues,
-		validationSchema: toFormikValidationSchema(schema as unknown as ZodTypeAny),
+		validationSchema: toFormikValidationSchema(
+			schema as unknown as ZodType,
+		),
 		validateOnBlur,
 		validateOnChange,
 		validateOnMount,
@@ -54,13 +110,22 @@ export function useFormikFormSettings<TSchema extends z.ZodTypeAny>({
 			await onSubmit(payload as z.output<TSchema>, helpers);
 
 			if (clearFields.length > 0) {
-				const nextValues = { ...methods.values };
+				const nextValues = structuredClone(values);
 
 				for (const field of clearFields) {
-					nextValues[field] = "" as z.input<TSchema>[typeof field];
+					const path = String(field);
+					const defaultValue = getPathValue(defaultValues, path);
+
+					setPathValue(
+						nextValues as Record<string, unknown>,
+						path,
+						defaultValue !== undefined
+							? structuredClone(defaultValue)
+							: "",
+					);
 				}
 
-				methods.resetForm({
+				helpers.resetForm({
 					values: nextValues,
 				});
 			}

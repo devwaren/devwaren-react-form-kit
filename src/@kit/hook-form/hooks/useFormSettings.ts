@@ -9,12 +9,59 @@ import {
 } from "react-hook-form";
 import type { z } from "zod/v3";
 
+type DeepKeys<T> = T extends readonly (infer U)[]
+	? `${number} ` | `${number}.${DeepKeys<U>}`
+	: T extends object
+	? {
+		[K in keyof T & string]:
+		| K
+		| (T[K] extends object
+			? `${K}.${DeepKeys<T[K]>}`
+			: never);
+	}[keyof T & string]
+	: never;
+
+function getPathValue(object: unknown, path: string): unknown {
+	return path.split(".").reduce<unknown>((value, key) => {
+		if (value === null || typeof value !== "object") {
+			return undefined;
+		}
+
+		return (value as Record<string, unknown>)[key];
+	}, object);
+}
+
+function setPathValue(
+	object: Record<string, unknown>,
+	path: string,
+	value: unknown,
+): void {
+	const keys = path.split(".");
+	const lastKey = keys.pop();
+
+	if (!lastKey) return;
+
+	let current = object;
+
+	for (const key of keys) {
+		const next = current[key];
+
+		if (next === null || typeof next !== "object") {
+			return;
+		}
+
+		current = next as Record<string, unknown>;
+	}
+
+	current[lastKey] = value;
+}
+
 type UseFormSettingsProps<TSchema extends z.ZodTypeAny> = {
 	schema: TSchema;
 	defaultValues?: DefaultValues<z.input<TSchema>>;
 	onSubmit: SubmitHandler<z.output<TSchema>>;
 	ignoreFields?: readonly (keyof z.output<TSchema>)[];
-	clearFields?: readonly (keyof z.input<TSchema>)[];
+	clearFields?: readonly DeepKeys<z.input<TSchema>>[];
 	mode?: UseFormProps<z.input<TSchema>>["mode"];
 	reValidateMode?: UseFormProps<z.input<TSchema>>["reValidateMode"];
 };
@@ -38,6 +85,13 @@ export function useFormSettings<TSchema extends z.ZodTypeAny>({
 	mode,
 	reValidateMode,
 }: UseFormSettingsProps<TSchema>): UseFormSettingsReturn<TSchema> {
+
+	if (typeof window === "undefined") {
+		throw new Error(
+			"useFormSettings is client-only and cannot be used during SSR.",
+		);
+	}
+
 	const methods = useForm<
 		z.input<TSchema>,
 		unknown,
@@ -59,10 +113,19 @@ export function useFormSettings<TSchema extends z.ZodTypeAny>({
 		await onSubmit(payload);
 
 		if (clearFields.length > 0) {
-			const values = methods.getValues();
+			const values = structuredClone(methods.getValues());
 
 			for (const field of clearFields) {
-				values[field] = "" as z.input<TSchema>[typeof field];
+				const path = String(field);
+				const defaultValue = getPathValue(defaultValues, path);
+
+				setPathValue(
+					values as Record<string, unknown>,
+					path,
+					defaultValue !== undefined
+						? structuredClone(defaultValue)
+						: "",
+				);
 			}
 
 			methods.reset(values);

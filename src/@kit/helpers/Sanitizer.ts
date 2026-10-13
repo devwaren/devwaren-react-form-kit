@@ -16,6 +16,13 @@ function isNativeObject(value: unknown) {
 }
 
 export function sanitize<T>(value: T): T {
+
+	if (typeof window === "undefined") {
+		throw new Error(
+			"this is sanitizer is client-only and cannot be used during SSR.",
+		);
+	}
+
 	if (typeof value === "string") {
 		return xss(value, options) as T;
 	}

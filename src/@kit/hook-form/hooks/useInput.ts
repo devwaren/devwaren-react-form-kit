@@ -7,10 +7,18 @@ import {
 } from "react-hook-form";
 
 const useInput = <T extends FieldValues>(name: Path<T>) => {
+	const context = useFormContext<T>();
+
+	if (!context) {
+		throw new Error(
+			"useInput must be used inside the Form component consider import { Form } from @dev-waren/react-form-kit/hook-form.",
+		);
+	}
+
 	const {
 		register: formRegister,
 		formState: { errors, submitCount },
-	} = useFormContext<T>();
+	} = context;
 
 	const error = get(errors, name)?.message;
 	const [isError, setShowError] = useState(false);
