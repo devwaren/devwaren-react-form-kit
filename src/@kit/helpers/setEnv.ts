@@ -9,13 +9,16 @@ declare global {
 }
 
 export const setEnv = (key: string): string => {
+
+    const FORBIDDEN_ENV_PATTERN = /SECRET|KEY|PRIVATE|PASSWORD|CREDENTIAL|TOKEN/i;
+
     if (!key.startsWith("VITE_")) {
         throw new Error(
             `Invalid client environment variable: ${key}. The name must start with VITE_.`,
         );
     }
 
-    if (/SECRET|KEY|PRIVATE/i.test(key)) {
+    if (FORBIDDEN_ENV_PATTERN.test(key)) {
         throw new Error(
             `Forbidden client environment variable: ${key}. Sensitive variables must remain server-side.`,
         );
