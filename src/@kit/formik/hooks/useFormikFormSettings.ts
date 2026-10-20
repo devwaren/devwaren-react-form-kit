@@ -86,11 +86,7 @@ export function useFormikFormSettings<TSchema extends z.ZodTypeAny>({
 	validateOnMount,
 }: UseFormikFormSettingsProps<TSchema>): UseFormikFormSettingsReturn<TSchema> {
 
-	if (typeof window === "undefined") {
-		throw new Error(
-			"useFormikFormSettings is client-only and cannot be used during SSR.",
-		);
-	}
+
 
 	const methods = useFormik<z.input<TSchema>>({
 		initialValues: defaultValues,

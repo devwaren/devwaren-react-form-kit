@@ -1,6 +1,6 @@
 {
   "name": "@dev-waren/react-form-kit",
-  "version": "1.6.19",
+  "version": "1.6.20",
   "description": "React form components and utilities.",
   "keywords": [
     "react",
@@ -72,6 +72,8 @@
     "build": "tsdown"
   },
   "dependencies": {
+    "@dev-waren/mongodb": "^1.0.52",
+    "@dev-waren/react-form-kit": "^1.6.20",
     "@hookform/resolvers": "^5.4.0",
     "@tanstack/react-form": "^1.33.3",
     "@tanstack/react-query": "^5.101.4",

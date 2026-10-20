@@ -86,12 +86,6 @@ export function useFormSettings<TSchema extends z.ZodTypeAny>({
 	reValidateMode,
 }: UseFormSettingsProps<TSchema>): UseFormSettingsReturn<TSchema> {
 
-	if (typeof window === "undefined") {
-		throw new Error(
-			"useFormSettings is client-only and cannot be used during SSR.",
-		);
-	}
-
 	const methods = useForm<
 		z.input<TSchema>,
 		unknown,

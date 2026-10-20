@@ -35,12 +35,6 @@ export function createFormSettings<
     clearFields = [],
 }: CreateFormSettingsProps<TSchema>) {
 
-    if (typeof window === "undefined") {
-        throw new Error(
-            "createFormSettings is client-only and cannot be used during SSR.",
-        );
-    }
-
     return {
         resolver: zodResolver(schema),
         defaultValues,

@@ -42,11 +42,7 @@ export function createFormikFormSettings<
     validateOnMount,
 }: CreateFormikFormSettingsProps<TSchema>) {
 
-    if (typeof window === "undefined") {
-        throw new Error(
-            "createFormikFormSettings is client-only and cannot be used during SSR.",
-        );
-    }
+   
 
     return {
         schema,
